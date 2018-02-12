@@ -1,0 +1,58 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlinV = '1.2.21'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinV"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+
+    ext {
+        appName = "My App"
+        minSdkV = 19
+        targetSdkV = 27
+        compileSdkV = 27
+        applicationId = "com.jainamj.myapplication"
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = "com.contentoffice.test"
+
+        ankoV = "0.10.1"
+        buildToolsV = "27.0.2"
+        daggerV = "2.11"
+        firebaseV = "11.8.0"
+        leakcanaryV = "1.5.1"
+        mosbyV = "3.0.4"
+        okhttpV = "3.7.0"
+        multidexV = "1.0.2"
+        retrofitV = "2.3.0"
+        rxAndroidV = "2.0.1"
+        rxKotlinV = "2.1.0"
+        rxV = "2.1.1"
+        stethoV = "1.5.0"
+        supportLibV = "27.0.2"
+        timberV = "4.6.0"
+    }
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
