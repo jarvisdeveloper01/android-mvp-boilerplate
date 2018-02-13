@@ -1,7 +1,8 @@
-package com.jainamj.myapplication
+package com.jainamj.myapplication.ui.main
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.jainamj.myapplication.R
 
 class MainActivity : AppCompatActivity() {
 

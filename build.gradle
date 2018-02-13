@@ -38,6 +38,7 @@ allprojects {
         buildToolsV = "27.0.2"
         daggerV = "2.11"
         firebaseV = "11.8.0"
+        glideV = "4.5.0"
         leakcanaryV = "1.5.1"
         mosbyV = "3.0.4"
         okhttpV = "3.7.0"
