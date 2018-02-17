@@ -1,8 +1,9 @@
 package com.jainamj.myapplication.data.preference
 
 import com.tumblr.remember.Remember
+import javax.inject.Inject
 
-class AppPreferenceHelper : PreferenceHelper {
+class PrefHelperImpl @Inject constructor() : PrefHelper {
 
     private val KEY_USER_ID = "KEY_USER_ID"
 

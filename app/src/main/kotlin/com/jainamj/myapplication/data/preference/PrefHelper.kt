@@ -1,5 +1,5 @@
 package com.jainamj.myapplication.data.preference
 
-interface PreferenceHelper {
+interface PrefHelper {
     var userId: String?
 }
