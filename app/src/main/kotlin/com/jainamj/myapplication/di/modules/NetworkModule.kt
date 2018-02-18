@@ -5,14 +5,23 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jainamj.myapplication.BuildConfig
+import com.jainamj.myapplication.data.api.GitService
+import com.jainamj.myapplication.data.api.LiveExamsService
 import com.jainamj.myapplication.di.qualifiers.AppContext
+import com.jainamj.myapplication.di.qualifiers.GitRetrofit
+import com.jainamj.myapplication.di.qualifiers.LiveExamsRetrofit
 import com.jainamj.myapplication.di.scopes.AppScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
-@Module
+@Module(includes = [AppContextModule::class])
 class NetworkModule {
 
     @Provides
@@ -38,5 +47,48 @@ class NetworkModule {
         return gsonBuilder.create()
     }
 
+
+    @Provides
+    @AppScope
+    fun okhttpClient(cache: Cache,
+                     httpLoggingInterceptor: HttpLoggingInterceptor,
+                     stethoInterceptor: StethoInterceptor): OkHttpClient =
+            OkHttpClient.Builder()
+                    .addInterceptor(httpLoggingInterceptor)
+                    .addNetworkInterceptor(stethoInterceptor)
+                    .cache(cache).build()
+
+
+    @Provides
+    @AppScope
+    @GitRetrofit
+    fun gitRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .baseUrl(BuildConfig.GIT_API_BASE_URL)
+            .build()
+
+    @Provides
+    @AppScope
+    @LiveExamsRetrofit
+    fun liveExamsRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .baseUrl(BuildConfig.LIVE_EXAMS_API_BASE_URL)
+            .build()
+
+    @Provides
+    @AppScope
+    fun gitApiInterface(@GitRetrofit retrofit: Retrofit): GitService {
+        return retrofit.create<GitService>(GitService::class.java)
+    }
+
+    @Provides
+    @AppScope
+    fun liveExamsApiInterface(@LiveExamsRetrofit retrofit: Retrofit): LiveExamsService {
+        return retrofit.create<LiveExamsService>(LiveExamsService::class.java)
+    }
 
 }

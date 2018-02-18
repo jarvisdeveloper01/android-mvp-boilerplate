@@ -1,6 +1,5 @@
 package com.jainamj.myapplication.di.modules
 
-import com.jainamj.myapplication.App
 import com.jainamj.myapplication.data.DataManager
 import com.jainamj.myapplication.data.DataManagerImpl
 import com.jainamj.myapplication.data.api.ApiHelper
@@ -9,18 +8,12 @@ import com.jainamj.myapplication.data.db.DbHelper
 import com.jainamj.myapplication.data.db.DbHelperImpl
 import com.jainamj.myapplication.data.preference.PrefHelper
 import com.jainamj.myapplication.data.preference.PrefHelperImpl
-import com.jainamj.myapplication.di.qualifiers.AppContext
 import com.jainamj.myapplication.di.scopes.AppScope
 import dagger.Module
 import dagger.Provides
 
-@Module
-class AppModule(val appContext: App) {
-
-    @Provides
-    @AppScope
-    @AppContext
-    fun appContext(): App = appContext
+@Module(includes = [AppContextModule::class])
+class AppModule() {
 
     @Provides
     @AppScope
@@ -33,7 +26,6 @@ class AppModule(val appContext: App) {
     @Provides
     @AppScope
     fun apiHelper(apiHelperImpl: ApiHelperImpl): ApiHelper = apiHelperImpl
-
 
     @Provides
     @AppScope

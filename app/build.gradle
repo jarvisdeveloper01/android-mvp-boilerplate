@@ -31,9 +31,17 @@ android {
         multiDexEnabled true
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "GIT_API_BASE_URL", "\"https://api.github.com/\""
+            buildConfigField "String", "LIVE_EXAMS_API_BASE_URL", "\"https://api.liveexams.in/\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "GIT_API_BASE_URL", "\"https://api.github.com/\""
+            buildConfigField "String", "LIVE_EXAMS_API_BASE_URL", "\"https://api.liveexams.in/\""
         }
     }
 
@@ -52,7 +60,6 @@ repositories {
     }
     mavenCentral()
 }
-
 
 // Required for annotation processing plugins like Dagger
 kapt {

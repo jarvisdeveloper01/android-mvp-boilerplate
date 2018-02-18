@@ -1,20 +1,17 @@
 package com.jainamj.myapplication.data
 
-import com.jainamj.myapplication.App
 import com.jainamj.myapplication.data.api.ApiHelper
 import com.jainamj.myapplication.data.api.models.git.UserInfo
 import com.jainamj.myapplication.data.api.models.liveexams.Container
 import com.jainamj.myapplication.data.db.DbHelper
 import com.jainamj.myapplication.data.preference.PrefHelper
-import com.jainamj.myapplication.di.scopes.AppScope
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class DataManagerImpl @Inject constructor(
-        @AppScope var app: App,
-        var mPreferenceHelper: PrefHelper,
-        var mApiHelper: ApiHelper,
-        var mDBHelper: DbHelper
+        private var mPreferenceHelper: PrefHelper,
+        private var mApiHelper: ApiHelper,
+        private var mDBHelper: DbHelper
 ) : DataManager {
     override fun setUserId(userId: String) {
         mPreferenceHelper.userId = userId

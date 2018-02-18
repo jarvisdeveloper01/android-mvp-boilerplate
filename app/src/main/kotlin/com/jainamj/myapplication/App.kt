@@ -3,11 +3,17 @@ package com.jainamj.myapplication
 import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
+import com.jainamj.myapplication.di.components.AppComponent
+import com.jainamj.myapplication.di.components.DaggerAppComponent
+import com.jainamj.myapplication.di.modules.AppContextModule
 import com.tumblr.remember.Remember
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 
 class App : MultiDexApplication() {
+
+    lateinit var appComponent: AppComponent
+
     override fun onCreate() {
         super.onCreate()
         initializeDagger()
@@ -33,30 +39,29 @@ class App : MultiDexApplication() {
         }
     }
 
-    private fun initRemeber() {
-        Remember.init(this, getString(R.string.app_name))
+    private fun initializeDagger() {
+        appComponent = DaggerAppComponent.builder()
+                .appContextModule(AppContextModule(this))
+                .build()
+        appComponent.inject(this)
     }
 
-    private fun initStetho() {
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-                        .build())
-    }
+    private fun initRemeber() = Remember.init(appComponent.appContext(), getString(R.string.app_name))
 
-    private fun initCrashlytics() {
-        Fabric.with(this, Crashlytics())
-    }
+    private fun initStetho() =
+            Stetho.initialize(Stetho.newInitializerBuilder(appComponent.appContext())
+                    .enableDumpapp(Stetho.defaultDumperPluginsProvider(appComponent.appContext()))
+                    .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(appComponent.appContext()))
+                    .build())
+
+    private fun initCrashlytics() = Fabric.with(appComponent.appContext(), Crashlytics())
 
     private fun plantTimber() {
         Timber.uprootAll()
         Timber.plant(Timber.DebugTree())
     }
 
-    private fun initializeDagger() {
 
-    }
 
 
 }

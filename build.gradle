@@ -49,7 +49,7 @@ allprojects {
         rxV = "2.1.1"
         stethoV = "1.5.0"
         supportLibV = "27.0.2"
-        timberV = "4.6.0"
+        timberV = "4.6.1"
     }
 
 }
