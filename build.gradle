@@ -40,7 +40,7 @@ allprojects {
         firebaseV = "11.8.0"
         glideV = "4.5.0"
         leakcanaryV = "1.5.1"
-        mosbyV = "3.0.4"
+        mosbyV = "3.1.0"
         okhttpV = "3.7.0"
         multidexV = "1.0.2"
         retrofitV = "2.3.0"

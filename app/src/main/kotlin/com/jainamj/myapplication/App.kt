@@ -12,7 +12,9 @@ import timber.log.Timber
 
 class App : MultiDexApplication() {
 
-    lateinit var appComponent: AppComponent
+    companion object {
+        lateinit var appComponent: AppComponent
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -60,8 +62,6 @@ class App : MultiDexApplication() {
         Timber.uprootAll()
         Timber.plant(Timber.DebugTree())
     }
-
-
 
 
 }

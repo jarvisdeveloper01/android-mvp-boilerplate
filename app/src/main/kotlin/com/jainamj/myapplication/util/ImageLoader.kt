@@ -14,16 +14,15 @@ object ImageLoader {
             loadImage(context, into, path, -1, -1, false)
 
     //  use fragment or activity if possible instead of context
-    private fun <T : Context> loadImage(context: T, into: ImageView, path: String, width: Int, height: Int, isCirlce: Boolean) {
+    private fun <T : Context> loadImage(context: T, into: ImageView, path: String, width: Int, height: Int, isCircle: Boolean) {
         var myOptions = RequestOptions()
         myOptions = myOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
         if (width > 0 && height > 0) {
             myOptions = myOptions.override(width, height)
         }
-        if (isCirlce) {
-            myOptions = myOptions.circleCrop()
-        } else {
-            myOptions = myOptions.centerCrop()
+        myOptions = when (isCircle) {
+            true -> myOptions.circleCrop()
+            else -> myOptions.centerCrop()
         }
         Glide.with(context)
                 .load(path)

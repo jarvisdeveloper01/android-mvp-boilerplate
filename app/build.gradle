@@ -118,6 +118,9 @@ dependencies {
     // remember
     implementation(group: 'com.tumblr', name: 'remember', version: '1.0.0', ext: 'aar')
 
+    // mvp
+    implementation "com.hannesdorfmann.mosby3:mvp:$mosbyV"
+
     // crashlytics
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true
