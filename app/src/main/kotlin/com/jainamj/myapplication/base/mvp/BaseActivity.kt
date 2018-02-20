@@ -1,23 +1,24 @@
 package com.jainamj.myapplication.base.mvp
 
 import android.app.Dialog
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.LayoutRes
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import com.jainamj.myapplication.App
+import com.jainamj.myapplication.R
 import com.jainamj.myapplication.base.network.ConnectivityUtils
 import com.jainamj.myapplication.di.components.AppComponent
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
+import timber.log.Timber
 
 abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V, P>(), BaseView {
 
     private var progressDialog: Dialog? = null
 
     override fun showLoading(message: String) {
-        DialogUtils.showLoading(this, message)
+        progressDialog = DialogUtils.showLoading(this, message)
     }
 
     override fun hideLoading() {
@@ -27,24 +28,27 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
         }
     }
 
-    override fun clientError(errorMessage: String) = toast("Something went wrong!")
+    override fun clientError(errorMessage: String) = toast(errorMessage)
 
     override fun networkError(errorMessage: String) {
+        Timber.e(errorMessage)
         if (!isNetworkConnected())
-            toast("Please check your internet connection and retry !")
+            toast(R.string.networkError)
+        else
+            toast(errorMessage)
     }
 
-    private fun isNetworkConnected(): Boolean {
-        return ConnectivityUtils.isConnectedToInternet(this)
+    private fun isNetworkConnected(): Boolean = ConnectivityUtils.isConnectedToInternet(this)
+
+    override fun onTimeout() = longToast(R.string.timeoutError)
+
+    override fun serverError(errorMessage: String) {
+        Timber.e(errorMessage)
+        longToast(R.string.serverError)
     }
-
-    override fun onTimeout() = longToast("Server is taking too long to respond.\nPlease try again")
-
-    override fun serverError(errorMessage: String) =
-            longToast("Something went wrong on the server side !")
 
     override fun unauthenticated() {
-        longToast("Your session has expired. Please login again.")
+        longToast(R.string.unauthenticatedError)
         finish()
         // TODO: go back to login screen
     }

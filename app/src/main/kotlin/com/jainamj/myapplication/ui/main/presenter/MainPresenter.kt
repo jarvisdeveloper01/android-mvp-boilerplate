@@ -4,5 +4,6 @@ import com.jainamj.myapplication.base.mvp.BasePresenter
 import com.jainamj.myapplication.ui.main.view.MainView
 
 interface MainPresenter : BasePresenter<MainView> {
-    fun handleEnterButtonClicked()
+    fun handleEnterButtonClicked(username: String)
+    fun setEditText()
 }

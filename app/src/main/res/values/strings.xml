@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="empty_username_error">No username entered</string>
+    <string name="timeoutError">Server is taking too long to respond.\nPlease try again</string>
+    <string name="serverError">Something went wrong on the server side !</string>
+    <string name="unauthenticatedError">Your session has expired. Please login again.</string>
+    <string name="networkError">Please check your internet connection and retry !</string>
+    <string name="git_username">Git username</string>
+    <string name="go">go!</string>
 </resources>

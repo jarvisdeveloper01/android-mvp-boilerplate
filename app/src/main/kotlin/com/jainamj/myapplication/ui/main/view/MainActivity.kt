@@ -10,8 +10,14 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
 
-    override fun showUserName(message: String) {
-        txtName.text = message
+    override fun showUserData(message: String) {
+        txtUserData.text = message
+    }
+
+    override fun setGitEditText(userName: String?) = etGitUserName.setText(userName)
+
+    override fun showEmptyUserNameError() {
+        tilGitUserName.error = getString(R.string.empty_username_error)
     }
 
     @Inject
@@ -26,6 +32,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mPresenter.handleEnterButtonClicked()
+        mPresenter.setEditText()
+        btnEnter.setOnClickListener { mPresenter.handleEnterButtonClicked(etGitUserName.text.toString().trim()) }
     }
 }

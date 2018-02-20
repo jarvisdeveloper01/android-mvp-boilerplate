@@ -7,6 +7,6 @@ import io.reactivex.Observable
 interface DataManager {
     fun setUserId(userId: String)
     fun getUserId(): String?
-    fun getUserInfo(): Observable<UserInfo>?
+    fun getUserInfo(username: String): Observable<UserInfo>?
     fun getBeforeSignupLanguages(): Observable<Container>
 }

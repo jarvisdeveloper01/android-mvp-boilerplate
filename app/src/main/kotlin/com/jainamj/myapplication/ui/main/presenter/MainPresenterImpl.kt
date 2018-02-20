@@ -1,7 +1,7 @@
 package com.jainamj.myapplication.ui.main.presenter
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
-import com.jainamj.myapplication.base.network.MyDisposableObserver
+import com.jainamj.myapplication.base.network.GitDisposableObserver
 import com.jainamj.myapplication.data.DataManager
 import com.jainamj.myapplication.data.api.models.git.UserInfo
 import com.jainamj.myapplication.ui.main.view.MainView
@@ -16,19 +16,41 @@ class MainPresenterImpl @Inject constructor(
         private var mDataManager: DataManager
 ) : MainPresenter, MvpBasePresenter<MainView>() {
 
-    override fun handleEnterButtonClicked() {
+    override fun handleEnterButtonClicked(username: String) {
 
-        mCompositeDisposable.add(
-                mDataManager.getUserInfo()!!.observeOn(AndroidSchedulers.mainThread())
+        Timber.e("username: " + username)
+
+        if (validateUsername(username)) {
+            ifViewAttached { view ->
+                view.showLoading("Fetching details")
+                mCompositeDisposable.add(mDataManager.getUserInfo(username)!!
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(object : MyDisposableObserver<UserInfo>(view!!) {
+                        .subscribeWith(object : GitDisposableObserver<UserInfo>(view) {
                             override fun onSuccess(response: UserInfo) {
+                                mDataManager.setUserId(response.login!!)
                                 Timber.e(response.toString())
-                                response.name?.let { view.showUserName(it) }
+                                view.showUserData(response.toString())
+                            }
+
+                            override fun onError(throwable: Throwable) {
+                                super.onError(throwable)
+                                view.showUserData(throwable.localizedMessage)
                             }
                         })
-        )
+                )
+            }
+        }
+    }
+
+    override fun setEditText() = ifViewAttached { it.setGitEditText(mDataManager.getUserId()) }
+
+    private fun validateUsername(username: String): Boolean = when (username.isNotEmpty()) {
+        true -> true
+        false -> {
+            ifViewAttached { it.showEmptyUserNameError() }
+            false
+        }
     }
 
     override fun detachView() {

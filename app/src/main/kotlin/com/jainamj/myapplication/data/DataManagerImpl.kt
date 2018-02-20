@@ -19,9 +19,7 @@ class DataManagerImpl @Inject constructor(
 
     override fun getUserId(): String? = mPreferenceHelper.userId
 
-    override fun getUserInfo(): Observable<UserInfo>? {
-        return mPreferenceHelper.userId?.let { mApiHelper.getUserRepos(it) }
-    }
+    override fun getUserInfo(username: String): Observable<UserInfo>? = mApiHelper.getUserRepos(username)
 
     override fun getBeforeSignupLanguages(): Observable<Container> = mApiHelper.getLanguagesBeforeSignup()
 }
