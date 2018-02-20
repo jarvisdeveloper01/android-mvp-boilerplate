@@ -35,4 +35,20 @@
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_250">250dp</dimen>
     <dimen name="dp_400">400dp</dimen>
+
+    <dimen name="text_8">8sp</dimen>
+    <dimen name="text_11">11sp</dimen>
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_13">13sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_15">15sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_17">17sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_22">22sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_25">25sp</dimen>
+    <dimen name="text_32">32sp</dimen>
+    <dimen name="text_50">50sp</dimen>
 </resources>

@@ -68,11 +68,13 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
         injectDependencies()
         super.onCreate(savedInstanceState)
         setContentView(getLayoutRes())
+        initToolbar()
     }
 
     @LayoutRes
     abstract fun getLayoutRes(): Int
 
+    abstract fun initToolbar()
     abstract fun injectDependencies()
 
 }

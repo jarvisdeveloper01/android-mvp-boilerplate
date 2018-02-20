@@ -25,6 +25,11 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
 
     override fun createPresenter(): MainPresenter = mPresenter
     override fun getLayoutRes(): Int = R.layout.activity_main
+    override fun initToolbar() {
+        toolbar.setToolbarTitle(R.string.main)
+        toolbar.setBackBtnListener { finish() }
+    }
+
     override fun injectDependencies() = DaggerMainComponent.builder()
             .appComponent(appComponent)
             .build()
@@ -35,4 +40,5 @@ class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView {
         mPresenter.setEditText()
         btnEnter.setOnClickListener { mPresenter.handleEnterButtonClicked(etGitUserName.text.toString().trim()) }
     }
+
 }

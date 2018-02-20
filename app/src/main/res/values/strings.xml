@@ -7,4 +7,6 @@
     <string name="networkError">Please check your internet connection and retry !</string>
     <string name="git_username">Git username</string>
     <string name="go">go!</string>
+    <string name="btnBack">Back Button</string>
+    <string name="main">Main</string>
 </resources>

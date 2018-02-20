@@ -23,7 +23,7 @@ class MainPresenterImpl @Inject constructor(
         if (validateUsername(username)) {
             ifViewAttached { view ->
                 view.showLoading("Fetching details")
-                mCompositeDisposable.add(mDataManager.getUserInfo(username)!!
+                mCompositeDisposable.add(mDataManager.getUserInfo(username)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(object : GitDisposableObserver<UserInfo>(view) {
