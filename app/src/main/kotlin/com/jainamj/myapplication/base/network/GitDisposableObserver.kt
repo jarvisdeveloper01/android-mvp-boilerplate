@@ -2,6 +2,7 @@ package com.jainamj.myapplication.base.network
 
 import com.google.gson.Gson
 import com.jainamj.myapplication.base.mvp.BaseView
+import io.reactivex.Observable
 import io.reactivex.annotations.NonNull
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
@@ -63,6 +64,6 @@ abstract class GitDisposableObserver<T> constructor(private val view: BaseView) 
     }
 
 
-    protected abstract fun onSuccess(response: T)
+    protected abstract fun onSuccess(response: T): Any?
 
 }

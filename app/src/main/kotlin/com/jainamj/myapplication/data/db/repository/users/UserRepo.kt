@@ -1,9 +1,10 @@
-package com.jainamj.myapplication.data.db
+package com.jainamj.myapplication.data.db.repository.users
 
-import com.jainamj.myapplication.data.db.repository.users.User
 import io.reactivex.Observable
 
-interface DbHelper {
+
+interface UserRepo {
+
     fun addAllUsers(users: List<User>): Observable<Boolean>
 
     fun addUser(user: User): Observable<Int>
@@ -15,4 +16,5 @@ interface DbHelper {
     fun findUser(id: Long): Observable<User>
 
     fun getAllUsers(): Observable<List<User>>
+
 }

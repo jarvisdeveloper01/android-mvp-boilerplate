@@ -5,6 +5,7 @@ import com.jainamj.myapplication.data.api.models.git.Follower
 import com.jainamj.myapplication.data.api.models.git.UserInfo
 import com.jainamj.myapplication.data.api.models.liveexams.Container
 import com.jainamj.myapplication.data.db.DbHelper
+import com.jainamj.myapplication.data.db.repository.users.User
 import com.jainamj.myapplication.data.preference.PrefHelper
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -25,4 +26,7 @@ class DataManagerImpl @Inject constructor(
     override fun getUserFollowers(username: String): Observable<List<Follower>> = mApiHelper.getUserFollowers(username)
 
     override fun getBeforeSignupLanguages(): Observable<Container> = mApiHelper.getLanguagesBeforeSignup()
+
+    override fun insertUserToDb(user: User): Observable<Int> = mDBHelper.addUser(user)
+
 }

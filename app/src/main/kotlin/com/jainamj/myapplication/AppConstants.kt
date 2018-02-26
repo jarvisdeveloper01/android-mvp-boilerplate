@@ -1,5 +1,7 @@
 package com.jainamj.myapplication
 
-class AppConstants{
-    val pi = 3.14159
+object AppConstants {
+    const val PI = 3.14159
+    const val GIT_DB_NAME = "git-db"
+    const val GIT_DB_VERSION = 2
 }

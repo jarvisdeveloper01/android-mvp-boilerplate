@@ -4,6 +4,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.jainamj.myapplication.base.network.GitDisposableObserver
 import com.jainamj.myapplication.data.DataManager
 import com.jainamj.myapplication.data.api.models.git.UserInfo
+import com.jainamj.myapplication.data.db.repository.users.User
 import com.jainamj.myapplication.ui.main.view.MainView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -26,11 +27,34 @@ class MainPresenterImpl @Inject constructor(
                 mCompositeDisposable.add(mDataManager.getUserInfo(username)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+//                        .compose { x-> object : GitDisposableObserver<UserInfo>(view) {
+//                            override fun onSuccess(response: UserInfo) {
+//                                mDataManager.setUserId(response.login!!)
+//                                Timber.e(response.toString())
+//                                view.showUserData(response.toString())
+//
+//                                // add user to db
+//                                val user = User(name = response.name, reposUrl = response.reposUrl, avatarUrl = response.avatarUrl)
+//                                mDataManager.insertUserToDb(user).subscribeBy { Timber.e(it.toString()) }
+//                            }
+//
+//                            override fun onError(throwable: Throwable) {
+//                                super.onError(throwable)
+//                                view.showUserData(throwable.localizedMessage)
+//                            }
+//                        } }
                         .subscribeWith(object : GitDisposableObserver<UserInfo>(view) {
                             override fun onSuccess(response: UserInfo) {
                                 mDataManager.setUserId(response.login!!)
                                 Timber.e(response.toString())
                                 view.showUserData(response.toString())
+
+                                // add user to db
+                                val user = User(name = response.name, reposUrl = response.reposUrl, avatarUrl = response.avatarUrl)
+                                mDataManager.insertUserToDb(user)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe { Timber.e(it.toString()) }
                             }
 
                             override fun onError(throwable: Throwable) {

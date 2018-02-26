@@ -81,14 +81,12 @@ class NetworkModule {
 
     @Provides
     @AppScope
-    fun gitApiInterface(@GitRetrofit retrofit: Retrofit): GitService {
-        return retrofit.create<GitService>(GitService::class.java)
-    }
+    fun gitApiInterface(@GitRetrofit retrofit: Retrofit): GitService =
+            retrofit.create<GitService>(GitService::class.java)
 
     @Provides
     @AppScope
-    fun liveExamsApiInterface(@LiveExamsRetrofit retrofit: Retrofit): LiveExamsService {
-        return retrofit.create<LiveExamsService>(LiveExamsService::class.java)
-    }
+    fun liveExamsApiInterface(@LiveExamsRetrofit retrofit: Retrofit): LiveExamsService =
+            retrofit.create<LiveExamsService>(LiveExamsService::class.java)
 
 }

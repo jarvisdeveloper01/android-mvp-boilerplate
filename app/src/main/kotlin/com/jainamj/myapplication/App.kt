@@ -50,11 +50,11 @@ class App : MultiDexApplication() {
 
     private fun initRemeber() = Remember.init(appComponent.appContext(), getString(R.string.app_name))
 
-    private fun initStetho() =
-            Stetho.initialize(Stetho.newInitializerBuilder(appComponent.appContext())
-                    .enableDumpapp(Stetho.defaultDumperPluginsProvider(appComponent.appContext()))
-                    .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(appComponent.appContext()))
-                    .build())
+    private fun initStetho() = Stetho.initializeWithDefaults(appComponent.appContext())
+//            Stetho.initialize(Stetho.newInitializerBuilder(appComponent.appContext())
+//                    .enableDumpapp(Stetho.defaultDumperPluginsProvider(appComponent.appContext()))
+//                    .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(appComponent.appContext()))
+//                    .build())
 
     private fun initCrashlytics() = Fabric.with(appComponent.appContext(), Crashlytics())
 

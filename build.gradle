@@ -44,6 +44,7 @@ allprojects {
         okhttpV = "3.7.0"
         multidexV = "1.0.2"
         retrofitV = "2.3.0"
+        roomV = "1.0.0"
         rxAndroidV = "2.0.1"
         rxKotlinV = "2.1.0"
         rxV = "2.1.1"
