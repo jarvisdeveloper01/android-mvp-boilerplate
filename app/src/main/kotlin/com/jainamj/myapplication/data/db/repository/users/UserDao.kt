@@ -7,8 +7,8 @@ interface UserDao {
     @Query("SELECT * FROM users")
     fun getAllUsers(): List<User>
 
-    @Update(onConflict = OnConflictStrategy.ABORT)
-    fun insertUser(user: User): Int
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun insertUser(user: User): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateUser(user: User): Int

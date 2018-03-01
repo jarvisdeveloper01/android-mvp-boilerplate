@@ -9,7 +9,7 @@ import javax.inject.Inject
 class DbHelperImpl @Inject constructor(var userRepo: UserRepo) : DbHelper {
     override fun addAllUsers(users: List<User>): Observable<Boolean> = userRepo.addAllUsers(users)
 
-    override fun addUser(user: User): Observable<Int> = userRepo.addUser(user)
+    override fun addUser(user: User): Observable<Long> = userRepo.addUser(user)
 
     override fun updateUser(user: User): Observable<Boolean> = userRepo.updateUser(user)
 

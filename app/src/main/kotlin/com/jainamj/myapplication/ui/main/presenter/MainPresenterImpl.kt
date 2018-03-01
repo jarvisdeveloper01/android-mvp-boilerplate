@@ -23,26 +23,10 @@ class MainPresenterImpl @Inject constructor(
 
         if (validateUsername(username)) {
             ifViewAttached { view ->
-                view.showLoading("Fetching details")
+                view.showLoading()
                 mCompositeDisposable.add(mDataManager.getUserInfo(username)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-//                        .compose { x-> object : GitDisposableObserver<UserInfo>(view) {
-//                            override fun onSuccess(response: UserInfo) {
-//                                mDataManager.setUserId(response.login!!)
-//                                Timber.e(response.toString())
-//                                view.showUserData(response.toString())
-//
-//                                // add user to db
-//                                val user = User(name = response.name, reposUrl = response.reposUrl, avatarUrl = response.avatarUrl)
-//                                mDataManager.insertUserToDb(user).subscribeBy { Timber.e(it.toString()) }
-//                            }
-//
-//                            override fun onError(throwable: Throwable) {
-//                                super.onError(throwable)
-//                                view.showUserData(throwable.localizedMessage)
-//                            }
-//                        } }
                         .subscribeWith(object : GitDisposableObserver<UserInfo>(view) {
                             override fun onSuccess(response: UserInfo) {
                                 mDataManager.setUserId(response.login!!)
@@ -50,7 +34,10 @@ class MainPresenterImpl @Inject constructor(
                                 view.showUserData(response.toString())
 
                                 // add user to db
-                                val user = User(name = response.name, reposUrl = response.reposUrl, avatarUrl = response.avatarUrl)
+                                val user = User(id = response.id,
+                                        name = response.name,
+                                        reposUrl = response.reposUrl,
+                                        avatarUrl = response.avatarUrl)
                                 mDataManager.insertUserToDb(user)
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())

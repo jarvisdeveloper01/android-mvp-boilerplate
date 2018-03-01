@@ -12,5 +12,5 @@ interface DataManager {
     fun getUserInfo(username: String): Observable<UserInfo>
     fun getUserFollowers(username: String): Observable<List<Follower>>
     fun getBeforeSignupLanguages(): Observable<Container>
-    fun insertUserToDb(user: User): Observable<Int>
+    fun insertUserToDb(user: User): Observable<Long>
 }

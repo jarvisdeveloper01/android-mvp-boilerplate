@@ -6,8 +6,8 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "users")
 data class User(@ColumnInfo(name = "id")
-                @PrimaryKey(autoGenerate = true)
-                var uid: Long = 123,
+                @PrimaryKey
+                var id: Int? = -1,
                 @ColumnInfo(name = "name")
                 var name: String? = "",
                 @ColumnInfo(name = "repos")

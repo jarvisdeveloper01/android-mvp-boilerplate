@@ -7,7 +7,7 @@ interface UserRepo {
 
     fun addAllUsers(users: List<User>): Observable<Boolean>
 
-    fun addUser(user: User): Observable<Int>
+    fun addUser(user: User): Observable<Long>
 
     fun updateUser(user: User): Observable<Boolean>
 

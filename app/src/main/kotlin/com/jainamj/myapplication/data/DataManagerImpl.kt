@@ -27,6 +27,6 @@ class DataManagerImpl @Inject constructor(
 
     override fun getBeforeSignupLanguages(): Observable<Container> = mApiHelper.getLanguagesBeforeSignup()
 
-    override fun insertUserToDb(user: User): Observable<Int> = mDBHelper.addUser(user)
+    override fun insertUserToDb(user: User): Observable<Long> = mDBHelper.addUser(user)
 
 }
