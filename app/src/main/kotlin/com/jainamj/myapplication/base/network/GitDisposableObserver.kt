@@ -64,6 +64,6 @@ abstract class GitDisposableObserver<T> constructor(private val view: BaseView) 
     }
 
 
-    protected abstract fun onSuccess(response: T): Any?
+    protected abstract fun onSuccess(response: T)
 
 }
