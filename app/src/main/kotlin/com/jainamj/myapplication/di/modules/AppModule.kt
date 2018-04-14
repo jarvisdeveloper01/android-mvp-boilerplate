@@ -13,7 +13,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module(includes = [AppContextModule::class])
-class AppModule() {
+class AppModule {
 
     @Provides
     @AppScope

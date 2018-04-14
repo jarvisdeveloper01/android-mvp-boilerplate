@@ -9,4 +9,5 @@
     <string name="go">go!</string>
     <string name="btnBack">Back Button</string>
     <string name="main">Main</string>
+    <string name="connectionError">Can\'t connect to the servers</string>
 </resources>

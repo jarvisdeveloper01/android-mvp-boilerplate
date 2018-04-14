@@ -1,18 +1,17 @@
 package com.jainamj.myapplication.data.db
 
-import com.jainamj.myapplication.data.db.repository.users.User
+import com.jainamj.myapplication.data.db.repository.newsletters.DbNewsLetterItem
 import io.reactivex.Observable
 
 interface DbHelper {
-    fun addAllUsers(users: List<User>): Observable<Boolean>
 
-    fun addUser(user: User): Observable<Long>
+    // news letters
 
-    fun updateUser(user: User): Observable<Boolean>
+    fun addAllNewsLetter(newsLetter: List<DbNewsLetterItem>): Observable<List<Long>>
+    fun addNewsLetter(newsLetter: DbNewsLetterItem): Observable<Long>
+    fun updateNewsLetter(newsLetter: DbNewsLetterItem): Observable<Boolean>
+    fun deleteNewsLetter(newsLetter: DbNewsLetterItem): Observable<Boolean>
+    fun getAllNewsLetter(): Observable<List<DbNewsLetterItem>>
 
-    fun deleteUser(user: User): Observable<Boolean>
-
-    fun findUser(id: Long): Observable<User>
-
-    fun getAllUsers(): Observable<List<User>>
+    // other db repo
 }

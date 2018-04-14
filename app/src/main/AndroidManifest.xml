@@ -15,7 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.main.view.MainActivity">
+
+        <!--todo change this key for each app as per fabric plugin-->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f0904f8d4cfeac1a991c3d8c2126e6a113bfeff6" />
+
+        <service android:name=".services.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".services.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+        <activity android:name=".ui.splash.view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,10 +41,6 @@
             </intent-filter>
         </activity>
 
-        <!--todo change this key for each app as per fabric plugin-->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="f0904f8d4cfeac1a991c3d8c2126e6a113bfeff6" />
     </application>
 
 </manifest>

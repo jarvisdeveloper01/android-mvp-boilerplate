@@ -5,11 +5,21 @@ import javax.inject.Inject
 
 class PrefHelperImpl @Inject constructor() : PrefHelper {
 
-    private val KEY_USER_ID = "KEY_USER_ID"
+    private val KEY_IS_LOGGEDIN: String = "KEY_IS_LOGGEDIN"
+    private val KEY_FCM_ID: String = "KEY_FCM_ID"
 
-    override var userId: String?
-        get() = Remember.getString(KEY_USER_ID, "jainamjhaveri")
+    override fun clearAll() = Remember.clear()
+
+    override var isLoggedIn: Boolean
+        get() = Remember.getBoolean(KEY_IS_LOGGEDIN, false)
         set(value) {
-            Remember.putString(KEY_USER_ID, value)
+            Remember.putBoolean(KEY_IS_LOGGEDIN, value)
         }
+
+    override var fcmId: String
+        get() = Remember.getString(KEY_FCM_ID, "")
+        set(value) {
+            Remember.putString(KEY_FCM_ID, value)
+        }
+
 }

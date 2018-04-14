@@ -1,5 +1,10 @@
 package com.jainamj.myapplication.data.preference
 
 interface PrefHelper {
-    var userId: String?
+
+    fun clearAll()
+
+    var isLoggedIn: Boolean
+    var fcmId: String
+
 }

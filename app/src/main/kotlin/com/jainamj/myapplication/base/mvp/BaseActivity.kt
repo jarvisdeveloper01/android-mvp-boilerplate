@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.LayoutRes
+import android.support.v7.app.AppCompatDelegate
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import com.jainamj.myapplication.App
 import com.jainamj.myapplication.R
@@ -12,6 +13,7 @@ import com.jainamj.myapplication.di.components.AppComponent
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import timber.log.Timber
+
 
 abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V, P>(), BaseView {
 
@@ -38,6 +40,14 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
             toast(errorMessage)
     }
 
+    override fun connectionError(errorMessage: String) {
+        Timber.e(errorMessage)
+        if (!isNetworkConnected())
+            toast(R.string.networkError)
+        else
+            toast(R.string.connectionError)
+    }
+
     private fun isNetworkConnected(): Boolean = ConnectivityUtils.isConnectedToInternet(this)
 
     override fun onTimeout() = longToast(R.string.timeoutError)
@@ -49,7 +59,7 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
 
     override fun unauthenticated() {
         longToast(R.string.unauthenticatedError)
-        finish()
+        finishAffinity()
         // TODO: go back to login screen
     }
 
@@ -67,8 +77,11 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutRes())
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        if (getLayoutRes() != 0)
+            setContentView(getLayoutRes())
         initToolbar()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     @LayoutRes
@@ -78,3 +91,4 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
     abstract fun injectDependencies()
 
 }
+

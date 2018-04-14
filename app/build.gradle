@@ -2,6 +2,7 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+        maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
     }
 
     dependencies {
@@ -12,42 +13,133 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+
+
+def readVersion() {
+    def versionFile = new File(project.rootDir, 'version.properties')
+    def version = new Properties()
+    def stream
+    try {
+        stream = new FileInputStream(versionFile)
+        version.load(stream)
+    } catch (FileNotFoundException ignore) {
+        print ignore
+    } finally {
+        if (stream != null) stream.close()
+    }
+
+    //safety defaults in case file is missing
+    if (!version['major']) version['major'] = "1"
+    if (!version['minor']) version['minor'] = "0"
+    if (!version['build']) version['build'] = "0"
+    return version
+}
+
+def readVersionName() {
+    def version = readVersion()
+    return "${version['major']}.${version['minor']}.${version['build']}"
+}
+
+def readBuildCode() {
+    def version = readVersion()
+    def build = version['build'] as int
+    return build
+}
+
+def incrementBuildNumber() {
+    def versionFile = new File(project.rootDir, 'version.properties')
+    def version = readVersion()
+
+    def build = version['build'] as int
+    build++
+    version['build'] = build.toString()
+
+    def stream = new FileOutputStream(versionFile)
+    try {
+        println "store started"
+        version.store(stream, null)
+        println "store successful"
+    } finally {
+        stream.close()
+    }
+
+    print "Build number is now... " + build
+
+    return build
+}
+
+def incrementVersionNumber(def type = "minor") {
+    def versionFile = new File(project.rootDir, 'version.properties')
+    def version = readVersion()
+
+    def major = version['major'] as int
+    def minor = version['minor'] as int
+
+    if (type == 'major') {
+        major++
+        minor = 0
+    } else if (type == 'minor') {
+        minor++
+    }
+
+    version['major'] = major.toString()
+    version['minor'] = minor.toString()
+
+    def stream = new FileOutputStream(versionFile)
+    try {
+        version.store(stream, null)
+    } finally {
+        stream.close()
+    }
+
+    println "Version is now... " + major + "." + minor
+
+    return major + "." + minor
+}
 
 android {
 
     def rootProject = rootProject.ext
     compileSdkVersion rootProject.compileSdkV
-    buildToolsVersion rootProject.buildToolsV
-
     defaultConfig {
         applicationId rootProject.applicationId
         minSdkVersion rootProject.minSdkV
         targetSdkVersion rootProject.targetSdkV
         testInstrumentationRunner rootProject.testInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
-        versionName rootProject.versionName
-        versionCode rootProject.versionCode
+        versionName readVersionName()
+        versionCode readBuildCode()
         multiDexEnabled true
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
     }
     buildTypes {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "GIT_API_BASE_URL", "\"https://api.github.com/\""
-            buildConfigField "String", "LIVE_EXAMS_API_BASE_URL", "\"https://api.liveexams.in/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://api.github.com/\""
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "GIT_API_BASE_URL", "\"https://api.github.com/\""
-            buildConfigField "String", "LIVE_EXAMS_API_BASE_URL", "\"https://api.liveexams.in/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://api.github.com/\""
+            debuggable false
+            jniDebuggable false
+//            signingConfig signingConfigs.releaseConfig
+            renderscriptDebuggable false
+            zipAlignEnabled true
         }
     }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    buildToolsVersion rootProject.buildToolsV
 }
 
 // for fabric
@@ -68,7 +160,6 @@ kapt {
 
 
 dependencies {
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinV"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinV"
@@ -85,6 +176,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitV"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitV"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitV"
+
+    // gson
+    implementation "com.google.code.gson:gson:$gsonV"
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rxV"
@@ -103,6 +197,7 @@ dependencies {
     implementation "com.facebook.stetho:stetho-okhttp3:$stethoV"
 
     // anko
+    implementation "org.jetbrains.anko:anko:$ankoV"
     implementation "org.jetbrains.anko:anko-commons:$ankoV"
     implementation "org.jetbrains.anko:anko-design:$ankoV"
 
@@ -116,20 +211,71 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerV"
 
     // remember
-    implementation(group: 'com.tumblr', name: 'remember', version: '1.0.0', ext: 'aar')
+    implementation 'com.tumblr:remember:1.0.0@aar'
+
+    // Room dependencies
+    implementation "android.arch.persistence.room:runtime:$roomV"
+    kapt "android.arch.persistence.room:compiler:$roomV"
+
+    // Live Data
+    implementation "android.arch.lifecycle:livedata:$liveDataV"
+    kapt "android.arch.lifecycle:compiler:$liveDataV"
+
+    //Eventbus
+    implementation 'org.greenrobot:eventbus:3.0.0'
 
     // mvp
     implementation "com.hannesdorfmann.mosby3:mvp:$mosbyV"
 
-    // crashlytics
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
-        transitive = true
-    }
-
+    //room
     implementation "android.arch.persistence.room:runtime:$roomV"
     kapt "android.arch.persistence.room:compiler:$roomV"
 
+    //permission dispatcher
+    implementation("com.github.hotchemi:permissionsdispatcher:${permissionDispatcherV}") {
+        exclude module: "support-v13"
+    }
+    kapt "com.github.hotchemi:permissionsdispatcher-processor:${permissionDispatcherV}"
+
+    //joda-time
+    implementation 'net.danlew:android.joda:2.9.9.2'
+
+    //firebase auth
+    implementation "com.google.firebase:firebase-auth:$firebaseV"
+    implementation "com.google.firebase:firebase-messaging:$firebaseV"
+
+    // crashlytics
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+        transitive = true
+    }
+
+    //joda for Date time
+    implementation 'net.danlew:android.joda:2.9.9.2'
+
+    // google play services gms
+    implementation "com.google.android.gms:play-services-vision:$gmsVersion"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+
+task doMajorVersionIncrement << {
+    println "Incrementing major version..."
+    incrementVersionNumber('major')
+}
+
+task doMinorVersionIncrement << {
+    println "Incrementing minor version..."
+    incrementVersionNumber('minor')
+}
+
+task doBuildNumberIncrement << {
+    println "Incrementing build number..."
+    incrementBuildNumber()
+}
+apply plugin: 'com.google.gms.google-services'
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

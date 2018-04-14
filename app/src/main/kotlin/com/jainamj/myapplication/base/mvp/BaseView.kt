@@ -6,6 +6,7 @@ interface BaseView : MvpView {
     fun clientError(errorMessage: String)
     fun hideLoading()
     fun networkError(errorMessage: String)
+    fun connectionError(errorMessage: String = "")
     fun onTimeout()
     fun serverError(errorMessage: String)
     fun unauthenticated()

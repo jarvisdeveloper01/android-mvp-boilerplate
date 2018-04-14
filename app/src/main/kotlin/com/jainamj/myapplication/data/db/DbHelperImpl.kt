@@ -1,21 +1,29 @@
 package com.jainamj.myapplication.data.db
 
-import com.jainamj.myapplication.data.db.repository.users.User
-import com.jainamj.myapplication.data.db.repository.users.UserRepo
+import com.jainamj.myapplication.data.db.repository.newsletters.DbNewsLetterItem
+import com.jainamj.myapplication.data.db.repository.newsletters.NewsLetterRepo
 import io.reactivex.Observable
 import javax.inject.Inject
 
 
-class DbHelperImpl @Inject constructor(var userRepo: UserRepo) : DbHelper {
-    override fun addAllUsers(users: List<User>): Observable<Boolean> = userRepo.addAllUsers(users)
+class DbHelperImpl @Inject constructor(var newsLetterRepo: NewsLetterRepo) : DbHelper {
 
-    override fun addUser(user: User): Observable<Long> = userRepo.addUser(user)
+    // news letters
 
-    override fun updateUser(user: User): Observable<Boolean> = userRepo.updateUser(user)
+    override fun addAllNewsLetter(newsLetter: List<DbNewsLetterItem>): Observable<List<Long>> =
+            newsLetterRepo.addAllNewsLetter(newsLetter)
 
-    override fun deleteUser(user: User): Observable<Boolean> = userRepo.deleteUser(user)
+    override fun addNewsLetter(newsLetter: DbNewsLetterItem): Observable<Long> =
+            newsLetterRepo.addNewsLetter(newsLetter)
 
-    override fun findUser(id: Long): Observable<User> = userRepo.findUser(id)
+    override fun updateNewsLetter(newsLetter: DbNewsLetterItem): Observable<Boolean> =
+            newsLetterRepo.updateNewsLetter(newsLetter)
 
-    override fun getAllUsers(): Observable<List<User>> = userRepo.getAllUsers()
+    override fun deleteNewsLetter(newsLetter: DbNewsLetterItem): Observable<Boolean> =
+            newsLetterRepo.deleteNewsLetter(newsLetter)
+
+    override fun getAllNewsLetter(): Observable<List<DbNewsLetterItem>> =
+            newsLetterRepo.getAllNewsLetter()
+
+    // other db repo
 }
