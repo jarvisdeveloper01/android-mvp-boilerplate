@@ -161,7 +161,7 @@ kapt {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinV"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinV"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinV"
 
     // support library
@@ -227,10 +227,6 @@ dependencies {
     // mvp
     implementation "com.hannesdorfmann.mosby3:mvp:$mosbyV"
 
-    //room
-    implementation "android.arch.persistence.room:runtime:$roomV"
-    kapt "android.arch.persistence.room:compiler:$roomV"
-
     //permission dispatcher
     implementation("com.github.hotchemi:permissionsdispatcher:${permissionDispatcherV}") {
         exclude module: "support-v13"
@@ -241,22 +237,21 @@ dependencies {
     implementation 'net.danlew:android.joda:2.9.9.2'
 
     //firebase auth
-    implementation "com.google.firebase:firebase-auth:$firebaseV"
-    implementation "com.google.firebase:firebase-messaging:$firebaseV"
+    implementation "com.google.firebase:firebase-auth:$firebaseAuthV"
+    implementation "com.google.firebase:firebase-messaging:$firebaseMessagingV"
 
     // crashlytics
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
         transitive = true
     }
 
-    //joda for Date time
-    implementation 'net.danlew:android.joda:2.9.9.2'
-
     // google play services gms
     implementation "com.google.android.gms:play-services-vision:$gmsVersion"
+
+    // testing libraries
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
 task doMajorVersionIncrement << {
@@ -273,9 +268,11 @@ task doBuildNumberIncrement << {
     println "Incrementing build number..."
     incrementBuildNumber()
 }
-apply plugin: 'com.google.gms.google-services'
+
 kotlin {
     experimental {
         coroutines "enable"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'

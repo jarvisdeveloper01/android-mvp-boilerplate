@@ -19,7 +19,7 @@
         <!--todo change this key for each app as per fabric plugin-->
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="f0904f8d4cfeac1a991c3d8c2126e6a113bfeff6" />
+            android:value="aaaa4f8d4cfeac1a991c3d8c2126e6a113bfaaaa" />
 
         <service android:name=".services.MyFirebaseInstanceIDService">
             <intent-filter>
