@@ -1,6 +1,6 @@
 package com.jainamj.myapplication
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
 import com.google.firebase.FirebaseApp

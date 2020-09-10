@@ -13,6 +13,8 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath 'com.google.gms:google-services:3.2.1'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+
     }
 }
 
@@ -27,8 +29,8 @@ allprojects {
     ext {
         appName = "Boilerplate app"
         minSdkV = 19
-        targetSdkV = 27
-        compileSdkV = 27
+        targetSdkV = 28
+        compileSdkV = 28
         applicationId = "com.jainamj.myapplication"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         testApplicationId = "test.com.jainamj.myapplication"
@@ -39,7 +41,7 @@ allprojects {
         firebaseAuthV = "16.0.1"
         firebaseMessagingV = "17.0.0"
         glideV = "4.6.1"
-        gmsVersion = "15.0.2"
+        gmsVersion = "20.1.2"
         gsonV = "2.8.2"
         leakcanaryV = "1.5.1"
         liveDataV = "1.1.1"
@@ -48,7 +50,7 @@ allprojects {
         okhttpV = "3.7.0"
         permissionDispatcherV = "3.1.0"
         retrofitV = "2.3.0"
-        roomV = "1.1.0"
+        roomV = "2.2.5"
         rxAndroidV = "2.0.1"
         rxKotlinV = "2.1.0"
         rxV = "2.1.1"

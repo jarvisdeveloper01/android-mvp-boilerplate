@@ -1,6 +1,6 @@
 package com.jainamj.myapplication.data.db.repository.newsletters
 
-import android.arch.persistence.room.*
+import androidx.room.*
 
 @Dao
 interface NewsLetterDao {

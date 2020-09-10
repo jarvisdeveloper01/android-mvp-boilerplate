@@ -2,11 +2,11 @@ package com.jainamj.myapplication.base.mvp
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import com.jainamj.myapplication.App
 import com.jainamj.myapplication.R
