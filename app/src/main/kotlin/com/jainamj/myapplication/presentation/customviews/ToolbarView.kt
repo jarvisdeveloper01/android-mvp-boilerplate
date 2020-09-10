@@ -1,9 +1,9 @@
 package com.jainamj.myapplication.presentation.customviews
 
 import android.content.Context
-import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.annotation.StringRes
 import com.jainamj.myapplication.R
 import com.jainamj.myapplication.presentation.extensions.inflate
 import com.jainamj.myapplication.presentation.extensions.setVisibility

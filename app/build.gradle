@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.25.1'
+        classpath 'io.fabric.tools:gradle:1.31.2'
     }
 }
 
@@ -100,7 +100,10 @@ def incrementVersionNumber(def type = "minor") {
 }
 
 android {
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     def rootProject = rootProject.ext
     compileSdkVersion rootProject.compileSdkV
     defaultConfig {
@@ -165,12 +168,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinV"
 
     // support library
-    implementation "com.android.support:appcompat-v7:$supportLibV"
-    implementation "com.android.support:design:$supportLibV"
-    implementation "com.android.support:support-v4:$supportLibV"
-    implementation "com.android.support:cardview-v7:$supportLibV"
     implementation "com.android.support:multidex:$multidexV"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.1'
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitV"
@@ -214,15 +213,17 @@ dependencies {
     implementation 'com.tumblr:remember:1.0.0@aar'
 
     // Room dependencies
-    implementation "android.arch.persistence.room:runtime:$roomV"
-    kapt "android.arch.persistence.room:compiler:$roomV"
+
+    implementation "androidx.room:room-runtime:$roomV"
+    kapt "androidx.room:room-compiler:$roomV"
+
 
     // Live Data
     implementation "android.arch.lifecycle:livedata:$liveDataV"
     kapt "android.arch.lifecycle:compiler:$liveDataV"
 
     //Eventbus
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
     // mvp
     implementation "com.hannesdorfmann.mosby3:mvp:$mosbyV"
@@ -241,7 +242,7 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingV"
 
     // crashlytics
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true
     }
 
@@ -249,24 +250,34 @@ dependencies {
     implementation "com.google.android.gms:play-services-vision:$gmsVersion"
 
     // testing libraries
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+//    implementation "com.google.dagger:hilt-android:2.28.3-alpha"
+//    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 }
 
-task doMajorVersionIncrement << {
-    println "Incrementing major version..."
-    incrementVersionNumber('major')
+task doMajorVersionIncrement  {
+    doLast {
+        println "Incrementing major version..."
+        incrementVersionNumber('major')
+    }
 }
 
-task doMinorVersionIncrement << {
-    println "Incrementing minor version..."
-    incrementVersionNumber('minor')
+task doMinorVersionIncrement  {
+    doLast {
+        println "Incrementing minor version..."
+        incrementVersionNumber('minor')
+    }
 }
 
-task doBuildNumberIncrement << {
-    println "Incrementing build number..."
-    incrementBuildNumber()
+task doBuildNumberIncrement {
+    doLast {
+        println "Incrementing build number..."
+        incrementBuildNumber()
+
+    }
 }
 
 kotlin {
