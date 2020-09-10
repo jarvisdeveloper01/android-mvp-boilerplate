@@ -2,9 +2,9 @@ package com.jainamj.myapplication.base.mvp
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatDelegate
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatDelegate
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import com.jainamj.myapplication.App
 import com.jainamj.myapplication.R

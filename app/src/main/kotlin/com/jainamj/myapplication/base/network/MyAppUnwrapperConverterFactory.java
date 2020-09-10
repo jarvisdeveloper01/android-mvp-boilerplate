@@ -1,6 +1,7 @@
 package com.jainamj.myapplication.base.network;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.reflect.TypeToken;
 import com.jainamj.myapplication.data.api.models.Response;
