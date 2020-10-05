@@ -8,27 +8,32 @@ import com.jainamj.myapplication.data.db.DbHelper
 import com.jainamj.myapplication.data.db.DbHelperImpl
 import com.jainamj.myapplication.data.preference.PrefHelper
 import com.jainamj.myapplication.data.preference.PrefHelperImpl
-import com.jainamj.myapplication.di.scopes.AppScope
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ApplicationComponent
+import javax.inject.Singleton
 
-@Module(includes = [AppContextModule::class])
+
+@InstallIn(value = [ApplicationComponent::class])
+@Module
 class AppModule {
 
     @Provides
-    @AppScope
+    @Singleton
     fun dataManager(dataManagerImpl: DataManagerImpl): DataManager = dataManagerImpl
 
     @Provides
-    @AppScope
+    @Singleton
     fun preferenceHelper(prefHelperImpl: PrefHelperImpl): PrefHelper = prefHelperImpl
 
     @Provides
-    @AppScope
+    @Singleton
     fun apiHelper(apiHelperImpl: ApiHelperImpl): ApiHelper = apiHelperImpl
 
     @Provides
-    @AppScope
+    @Singleton
     fun dbHelper(dbHelperImpl: DbHelperImpl): DbHelper = dbHelperImpl
 
 }

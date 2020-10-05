@@ -1,13 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlinV = '1.2.41'
+    ext.kotlinV = '1.4.10'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinV"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -32,12 +32,11 @@ allprojects {
         targetSdkV = 28
         compileSdkV = 28
         applicationId = "com.jainamj.myapplication"
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
         testApplicationId = "test.com.jainamj.myapplication"
 
         ankoV = "0.10.1"
         buildToolsV = "27.0.3"
-        daggerV = "2.16"
         firebaseAuthV = "16.0.1"
         firebaseMessagingV = "17.0.0"
         glideV = "4.6.1"
@@ -45,7 +44,7 @@ allprojects {
         gsonV = "2.8.2"
         leakcanaryV = "1.5.1"
         liveDataV = "1.1.1"
-        mosbyV = "3.1.0"
+        mosbyV = "3.1.1"
         multidexV = "1.0.3"
         okhttpV = "3.7.0"
         permissionDispatcherV = "3.1.0"
