@@ -1,7 +1,7 @@
 package com.jainamj.myapplication.di.modules
 
-import com.jainamj.myapplication.ui.splash.presenter.SplashPresenter
-import com.jainamj.myapplication.ui.splash.presenter.SplashPresenterImpl
+import com.jainamj.myapplication.ui.main.presenter.MainContract
+import com.jainamj.myapplication.ui.main.presenter.MainPresenterImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ class ActivityModule {
 
     @Provides
     @ActivityScoped
-    fun splashActivityPresenter(splashPresenter: SplashPresenterImpl): SplashPresenter = splashPresenter
+    fun mainActivityPresenter(mainPresenterImpl: MainPresenterImpl): MainContract.Presenter = mainPresenterImpl
 }

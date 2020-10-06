@@ -33,7 +33,7 @@
         </service>
 
 
-        <activity android:name=".ui.splash.view.SplashActivity">
+        <activity android:name=".ui.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

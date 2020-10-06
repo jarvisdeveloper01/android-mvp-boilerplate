@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
-import com.jainamj.myapplication.App
+
 import com.jainamj.myapplication.R
 import com.jainamj.myapplication.base.network.ConnectivityUtils
 
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
+
 import timber.log.Timber
 
 abstract class BaseFragment<V : BaseView, P : BasePresenter<V>> : MvpFragment<V, P>(), BaseView {
