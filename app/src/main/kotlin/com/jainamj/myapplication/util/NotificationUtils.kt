@@ -14,7 +14,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.jainamj.myapplication.R
-import com.jainamj.myapplication.ui.splash.view.SplashActivity
+import com.jainamj.myapplication.ui.main.view.MainActivity
 import timber.log.Timber
 import java.util.*
 
@@ -107,7 +107,7 @@ class NotificationUtils(context: Context) : ContextWrapper(context) {
         val contentIntent: PendingIntent
         val channelName: String = CHANNEL_MESSAGES
 
-        val intent = Intent(this, SplashActivity::class.java) // todo: change splash activity to dashboard activity
+        val intent = Intent(this, MainActivity::class.java) // todo: change splash activity to dashboard activity
         contentIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)
 

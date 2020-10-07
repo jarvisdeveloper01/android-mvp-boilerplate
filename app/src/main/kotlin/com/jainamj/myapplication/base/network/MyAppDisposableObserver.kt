@@ -30,7 +30,7 @@ abstract class MyAppDisposableObserver<T> constructor(private val view: BaseView
                     in 400..499 -> { // some thing went wrong on the client side
                         try {
                             // get error string that we receive in postman response
-                            val errorString = throwable.response().errorBody()!!.string()
+                            val errorString = throwable.response()?.errorBody()!!.string()
                             // convert errorString into MyAppWrappedError object
                             val wrappedError = Gson().fromJson(errorString, MyAppWrappedError::class.java)
                             // display toast about the error description

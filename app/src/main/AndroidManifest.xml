@@ -16,10 +16,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
 
-        <!--todo change this key for each app as per fabric plugin-->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="aaaa4f8d4cfeac1a991c3d8c2126e6a113bfaaaa" />
+
 
         <service android:name=".services.MyFirebaseInstanceIDService">
             <intent-filter>
@@ -33,7 +30,7 @@
         </service>
 
 
-        <activity android:name=".ui.splash.view.SplashActivity">
+        <activity android:name=".ui.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

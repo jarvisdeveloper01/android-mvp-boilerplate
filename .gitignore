@@ -7,5 +7,4 @@
 /captures
 .externalNativeBuild
 /app/google-services.json
-/app/fabric.properties
 !/version.properties
