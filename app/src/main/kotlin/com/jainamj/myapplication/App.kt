@@ -1,13 +1,11 @@
 package com.jainamj.myapplication
 
 import android.app.Application
-import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
 import com.google.firebase.FirebaseApp
 import com.tumblr.remember.Remember
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
-import io.fabric.sdk.android.Fabric
 @HiltAndroidApp()
 class App : Application() {
 
@@ -38,11 +36,9 @@ class App : Application() {
             "staging" -> {
                 plantTimber()
                 initStetho()
-//                initCrashlytics()
             }
             "release" -> {
                 initStetho()
-//                initCrashlytics()
             }
         }
     }
@@ -63,8 +59,6 @@ class App : Application() {
 
     private fun initFirebase() {
         FirebaseApp.initializeApp(this)
-        val fabric: Fabric = Fabric.Builder(this).kits(Crashlytics()).build()
-        Fabric.with(fabric)
     }
 
 
