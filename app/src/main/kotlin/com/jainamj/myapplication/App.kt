@@ -6,9 +6,8 @@ import com.facebook.stetho.Stetho
 import com.google.firebase.FirebaseApp
 import com.tumblr.remember.Remember
 import dagger.hilt.android.HiltAndroidApp
-import io.fabric.sdk.android.Fabric
 import timber.log.Timber
-
+import io.fabric.sdk.android.Fabric
 @HiltAndroidApp()
 class App : Application() {
 
@@ -56,16 +55,17 @@ class App : Application() {
         Stetho.initializeWithDefaults(applicationContext)
     }
 
-    private fun initCrashlytics(): Fabric? {
-        return Fabric.with(applicationContext, Crashlytics())
-    }
 
     private fun plantTimber() {
         Timber.uprootAll()
         Timber.plant(Timber.DebugTree())
     }
 
-    private fun initFirebase() = FirebaseApp.initializeApp(this)
+    private fun initFirebase() {
+        FirebaseApp.initializeApp(this)
+        val fabric: Fabric = Fabric.Builder(this).kits(Crashlytics()).build()
+        Fabric.with(fabric)
+    }
 
 
 }
