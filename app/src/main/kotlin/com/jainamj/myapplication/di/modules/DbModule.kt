@@ -6,26 +6,25 @@ import com.jainamj.myapplication.AppConstants
 import com.jainamj.myapplication.data.db.MyAppDb
 import com.jainamj.myapplication.data.db.repository.newsletters.NewsLetterImpl
 import com.jainamj.myapplication.data.db.repository.newsletters.NewsLetterRepo
+import com.jainamj.myapplication.di.qualifiers.AppContext
+import com.jainamj.myapplication.di.scopes.AppScope
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Singleton
 
-@InstallIn(ApplicationComponent::class)
-@Module
+
+@Module(includes = [AppContextModule::class])
 class DbModule {
 
     @Provides
-    @Singleton
-    fun myAppDb(@ApplicationContext context: Context): MyAppDb =
+    @AppScope
+    fun myAppDb(@AppContext context: Context): MyAppDb =
             Room.databaseBuilder(context, MyAppDb::class.java, AppConstants.DB_NAME)
                     // TODO: replace fallbackToDestructiveMigration() with appropriate migrations
                     .fallbackToDestructiveMigration()
                     .build()
 
     @Provides
+    @AppScope
     fun provideNewsLetterRepoHelper(myAppDb: MyAppDb): NewsLetterRepo = NewsLetterImpl(myAppDb.newsLetterDao())
 
 }

@@ -10,13 +10,12 @@ import com.jainamj.myapplication.BuildConfig
 import com.jainamj.myapplication.base.network.MyAppUnwrapperConverterFactory
 import com.jainamj.myapplication.data.api.MyAppService
 import com.jainamj.myapplication.data.preference.PrefHelper
+import com.jainamj.myapplication.di.qualifiers.AppContext
 import com.jainamj.myapplication.di.qualifiers.MyAppInterceptor
 import com.jainamj.myapplication.di.qualifiers.MyAppRetrofit
+import com.jainamj.myapplication.di.scopes.AppScope
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -25,26 +24,25 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
-@InstallIn(ApplicationComponent::class)
-@Module
+@Module(includes = [AppContextModule::class, AppModule::class])
 class NetworkModule {
 
     @Provides
-    @Singleton
+    @AppScope
     fun httpLoggingInterceptor(): HttpLoggingInterceptor =
             if (BuildConfig.BUILD_TYPE.equals("release"))
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             else
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
     @Provides
-    @Singleton
+    @AppScope
     fun stethoInterceptor(): StethoInterceptor = StethoInterceptor()
 
     @Provides
+    @AppScope
     @MyAppInterceptor
-    @Singleton
     fun myAppInterceptor(prefHelper: PrefHelper): Interceptor = Interceptor {
         var request = it.request()
 
@@ -65,12 +63,12 @@ class NetworkModule {
     }
 
     @Provides
-    @Singleton
-    fun httpCache(@ApplicationContext context: Context): Cache =
+    @AppScope
+    fun httpCache(@AppContext context: Context): Cache =
             Cache(context.cacheDir, AppConstants.CACHE_SIZE)
 
     @Provides
-    @Singleton
+    @AppScope
     fun gson(): Gson {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
@@ -79,7 +77,7 @@ class NetworkModule {
 
 
     @Provides
-    @Singleton
+    @AppScope
     fun okhttpClient(cache: Cache,
                      httpLoggingInterceptor: HttpLoggingInterceptor,
                      stethoInterceptor: StethoInterceptor,
@@ -99,8 +97,8 @@ class NetworkModule {
 
 
     @Provides
+    @AppScope
     @MyAppRetrofit
-    @Singleton
     fun myAppRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(MyAppUnwrapperConverterFactory())
@@ -109,8 +107,8 @@ class NetworkModule {
             .baseUrl(BuildConfig.API_BASE_URL)
             .build()
 
-    @Singleton
     @Provides
+    @AppScope
     fun myAppApiInterface(@MyAppRetrofit retrofit: Retrofit): MyAppService =
             retrofit.create<MyAppService>(MyAppService::class.java)
 

@@ -9,6 +9,7 @@ import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import com.jainamj.myapplication.App
 import com.jainamj.myapplication.R
 import com.jainamj.myapplication.base.network.ConnectivityUtils
+import com.jainamj.myapplication.di.components.AppComponent
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import timber.log.Timber
@@ -68,10 +69,13 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
         exception.message?.let { toast(it) }
     }
 
-
+    var appComponent: AppComponent? = null
+        private set
+        get() = App.appComponent
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
+        injectDependencies()
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         if (getLayoutRes() != 0)
@@ -84,6 +88,7 @@ abstract class BaseActivity<V : BaseView, P : BasePresenter<V>> : MvpActivity<V,
     abstract fun getLayoutRes(): Int
 
     abstract fun initToolbar()
+    abstract fun injectDependencies()
 
 }
 

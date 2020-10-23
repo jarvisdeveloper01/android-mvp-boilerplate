@@ -2,11 +2,10 @@ package com.jainamj.myapplication.ui.dashboard.view
 
 import com.jainamj.myapplication.R
 import com.jainamj.myapplication.base.mvp.BaseFragment
+import com.jainamj.myapplication.di.components.DaggerDashboardComponent
 import com.jainamj.myapplication.ui.dashboard.presenter.DashboardContract
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class DashboardFragment : BaseFragment<DashboardContract.View, DashboardContract.Presenter>(), DashboardContract.View {
 
 
@@ -16,5 +15,8 @@ class DashboardFragment : BaseFragment<DashboardContract.View, DashboardContract
     override fun createPresenter(): DashboardContract.Presenter {
         return mPresenter
     }
+
+    override fun injectDependencies() =
+            DaggerDashboardComponent.builder().appComponent(appComponent).build().inject(this)
 
 }

@@ -1,16 +1,14 @@
 package com.jainamj.myapplication.ui.main.view
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.jainamj.myapplication.R
 import com.jainamj.myapplication.base.mvp.BaseActivity
+import com.jainamj.myapplication.di.components.DaggerMainActivityComponent
 import com.jainamj.myapplication.ui.main.presenter.MainContract
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
-@AndroidEntryPoint
-class MainActivity : BaseActivity<MainContract.View,MainContract.Presenter>(),MainContract.View {
+class MainActivity : BaseActivity<MainContract.View, MainContract.Presenter>(), MainContract.View {
 
 
     @Inject
@@ -21,7 +19,6 @@ class MainActivity : BaseActivity<MainContract.View,MainContract.Presenter>(),Ma
     override fun initToolbar() = Unit
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    override fun injectDependencies() =
+            DaggerMainActivityComponent.builder().appComponent(appComponent).build().inject(this)
 }

@@ -17,7 +17,6 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath 'com.google.gms:google-services:4.3.4'
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.3.0'
 
     }
@@ -42,6 +41,7 @@ allprojects {
 
         ankoV = "0.10.1"
         buildToolsV = "27.0.3"
+        daggerV = "2.28"
         firebaseAuthV = "19.4.0"
         firebaseMessagingV = "20.3.0"
         glideV = "4.11.0"
@@ -54,7 +54,7 @@ allprojects {
         okhttpV = "3.7.0"
         permissionDispatcherV = "3.1.0"
         retrofitV = "2.8.1"
-        retrofitRx = "2.3.0"
+        retrofitRx = "2.8.1"
         roomV = "2.2.5"
         rxAndroidV = "2.1.0"
         rxKotlinV = "2.1.0"

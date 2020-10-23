@@ -1,17 +1,22 @@
 package com.jainamj.myapplication
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
 import com.google.firebase.FirebaseApp
+import com.jainamj.myapplication.di.components.AppComponent
+import com.jainamj.myapplication.di.components.DaggerAppComponent
+import com.jainamj.myapplication.di.modules.AppContextModule
 import com.tumblr.remember.Remember
-import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
-@HiltAndroidApp()
-class App : Application() {
+class App : MultiDexApplication() {
 
+    companion object {
+        lateinit var appComponent: AppComponent
+    }
 
     override fun onCreate() {
         super.onCreate()
+        initializeDagger()
         initRemember()
         initBuildTypeData()
         initJodaTime()
@@ -59,6 +64,13 @@ class App : Application() {
 
     private fun initFirebase() {
         FirebaseApp.initializeApp(this)
+    }
+
+    private fun initializeDagger() {
+        appComponent = DaggerAppComponent.builder()
+                .appContextModule(AppContextModule(this))
+                .build()
+        appComponent.inject(this)
     }
 
 

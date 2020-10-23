@@ -4,14 +4,15 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import com.jainamj.myapplication.di.components.AppComponent
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
+import com.jainamj.myapplication.App
 
 import com.jainamj.myapplication.R
 import com.jainamj.myapplication.base.network.ConnectivityUtils
-
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 
@@ -90,9 +91,13 @@ abstract class BaseFragment<V : BaseView, P : BasePresenter<V>> : MvpFragment<V,
         exception.message?.let { msg -> context?.let { with(it) { longToast(msg) } } }
     }
 
+    var appComponent: AppComponent? = null
+        private set
+        get() = App.appComponent
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
+        injectDependencies()
         super.onCreate(savedInstanceState)
     }
 
@@ -103,4 +108,5 @@ abstract class BaseFragment<V : BaseView, P : BasePresenter<V>> : MvpFragment<V,
     @LayoutRes
     abstract fun getLayoutRes(): Int
 
+    abstract fun injectDependencies()
 }
